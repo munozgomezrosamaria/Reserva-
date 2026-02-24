@@ -1,0 +1,19 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="logo">MiProyecto</a>
+
+        <ul class="nav-links">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/servicios/">Servicios</a></li>
+            <li><a href="/galeria/">Galería</a></li>
+            <li><a href="/contactos/">Contactos</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a href="#">{{ user.username }}</a></li>
+                <li><a href="#">Cerrar sesión</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}" class="btn-login">Iniciar sesión</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
