@@ -9,9 +9,10 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Navbar */
+/* ===== Navbar ===== */
+
 .navbar {
-    background-color: #1e1e1e;
+    background-color: #29B6F6; /* 🔥 cambiado */
     padding: 1rem 2rem;
 }
 
@@ -32,8 +33,8 @@ body {
 /* Links */
 .nav-links {
     list-style: none;
-    display: flex;              /* 🔥 Esto los pone horizontales */
-    gap: 1.5rem;                /* Espacio entre items */
+    display: flex;
+    gap: 1.5rem;
     align-items: center;
 }
 
@@ -44,17 +45,103 @@ body {
 }
 
 .nav-links a:hover {
-    color: #00bcd4;
+    color: #01579B; /* 🔥 azul más oscuro */
 }
 
 /* Botón login */
 .btn-login {
-    background: #00bcd4;
+    background: #01579B; /* 🔥 cambiado */
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     color: white;
 }
 
 .btn-login:hover {
-    background: #0097a7;
+    background: #003c6c; /* 🔥 más oscuro */
+}
+
+
+/* ===== Footer moderno ===== */
+
+.footer {
+    background-color: #29B6F6; /* 🔥 cambiado */
+    color: white;
+    padding: 4rem 2rem 2rem 2rem;
+    margin-top: 4rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Parte superior */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-column {
+    flex: 1;
+}
+
+.footer-column h4 {
+    color: white;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+}
+
+.footer-column p {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Enlaces */
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-column a {
+    color: #e3f2fd; /* 🔥 azul claro */
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #01579B;
+    padding-left: 4px;
+}
+
+/* Redes sociales */
+.social-links {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    font-size: 0.9rem;
+}
+
+/* Línea divisoria */
+.footer-divider {
+    height: 1px;
+    background-color: rgba(255,255,255,0.4); /* 🔥 mejor contraste */
+    margin-bottom: 1.5rem;
+}
+
+/* Parte inferior */
+.footer-bottom {
+    text-align: center;
+    font-size: 0.85rem;
+    color: white;
 }

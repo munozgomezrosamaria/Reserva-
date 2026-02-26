@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'apps.users', #apps aqui agregas AQUII
     'apps.services',
     'apps.reservations',
+    'apps.presentations',
+    'apps.common',
 ]
 
 MIDDLEWARE = [
