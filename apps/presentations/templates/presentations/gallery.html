@@ -1,8 +1,67 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Galeria{% endblock %}
+
+
+
+{% block title %}Galería{% endblock %}
 
 {% block content %}
-    <h1>Bienvenido</h1>
-    <p>Esta es la página galeria.</p>
+
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+
+<section class="gallery-container">
+    
+    <h1 class="gallery-title">Galería</h1>
+    
+    <div class="gallery-grid">
+        
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto1.jpg' %}" onclick="openModal(this)">
+            
+        </div>
+
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto2.jpg' %}" onclick="openModal(this)">
+        </div>
+
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto3.jpg' %}" onclick="openModal(this)">
+        </div>
+
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto4.jpg' %}" onclick="openModal(this)">
+        </div>
+
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto5.jpg' %}" onclick="openModal(this)">
+        </div>
+
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery/foto6.jpg' %}" onclick="openModal(this)">
+        </div>
+
+    </div>
+    
+
+</section>
+
+
+<!-- MODAL -->
+<div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
+</div>
+
+<script>
+function openModal(img) {
+    document.getElementById("imageModal").style.display = "block";
+    document.getElementById("modalImg").src = img.src;
+}
+
+function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+}
+</script>
+
 {% endblock %}

@@ -1,9 +1,58 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-    <h1>Bienvenido</h1>
-    <p>Esta es la página principal.</p>
-{% endblock %}
 
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Reserva Natural Laguna de la Bolsa</h1>
+        <p>
+            Descubre la belleza natural de nuestra reserva ecológica.
+            Un santuario de biodiversidad donde la naturaleza y el turismo sostenible se encuentran.
+        </p>
+        <a href="#" class="btn-primary">Explorar ahora</a>
+    </div>
+</section>
+
+<section class="info-section">
+    <h2>Conoce Nuestra Reserva</h2>
+    <p>
+        Un espacio dedicado a la conservación, educación ambiental y turismo responsable
+    </p>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Historia</h3>
+            <p>
+                La Laguna de la Bolsa es un ecosistema único que ha sido preservado por generaciones.
+                Nuestro compromiso es mantener este patrimonio natural para el futuro.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Servicios Turísticos</h3>
+            <p>
+                Ofrecemos paseos ecológicos, caminatas guiadas, artesanías locales y gastronomía típica.
+            </p>
+            <button>Ver Servicios</button>
+        </div>
+
+        <div class="card">
+            <h3>Contacto</h3>
+            <p>
+                ¿Tienes preguntas? Contáctanos para más información sobre horarios y programas especiales.
+            </p>
+            <button><a href="{% url 'presentations:contact' %}" class="text-white text-decoration-none">Contáctanos</a></button>
+            
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

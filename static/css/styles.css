@@ -12,7 +12,7 @@ body {
 /* ===== Navbar ===== */
 
 .navbar {
-    background-color: #29B6F6; /* 🔥 cambiado */
+    background-color: #29B6F6; 
     padding: 1rem 2rem;
 }
 
@@ -45,19 +45,19 @@ body {
 }
 
 .nav-links a:hover {
-    color: #01579B; /* 🔥 azul más oscuro */
+    color: #01579B; /*  azul más oscuro */
 }
 
 /* Botón login */
 .btn-login {
-    background: #01579B; /* 🔥 cambiado */
+    background: #01579B; 
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     color: white;
 }
 
 .btn-login:hover {
-    background: #003c6c; /* 🔥 más oscuro */
+    background: #003c6c; 
 }
 
 
@@ -69,6 +69,7 @@ body {
     padding: 4rem 2rem 2rem 2rem;
     margin-top: 4rem;
 }
+
 
 .footer-container {
     max-width: 1200px;

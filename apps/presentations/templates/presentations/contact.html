@@ -1,8 +1,80 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}{% endblock %}
+{% block title %}Contacto{% endblock %}
 
 {% block content %}
-    <h1>Bienvenido</h1>
-    <p>Esta es la página principal.</p>
+
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+
+<section class="contact-section">
+
+    <div class="overlay">
+        <h2>Contáctanos</h2>
+        <p>
+            ¿Tienes alguna pregunta? Estamos aquí para ayudarte.
+            Te responderemos lo antes posible.
+        </p>
+
+        <div class="contact-container">
+
+            <!-- Información de Contacto -->
+            <div class="contact-info">
+                <h3>Información de Contacto</h3>
+
+                <div class="info-item">
+                    <span class="icon">📞</span>
+                    <div>
+                        <strong>Teléfono</strong>
+                        <p>+57 123 456 7890</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="icon">✉️</span>
+                    <div>
+                        <strong>Email</strong>
+                        <p>info@lagunadelabolsa.com</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="icon">📍</span>
+                    <div>
+                        <strong>Ubicación</strong>
+                        <p>Reserva Natural Laguna de la Bolsa</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+            <div class="contact-map">
+                
+                    <div style="width:110%; max-width:1000px;">
+                    <iframe
+                        src="https://www.google.com/maps?q=Laguna+De+La+Bolsa+-+Cumbal&output=embed"
+                        width="110%"
+                        height="250"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+</div>
+                
+            </div>
+
+        </div>
+
+        <!-- Horario -->
+        <div class="schedule">
+            <h3>Horario de Atención</h3>
+            <p>Lunes a Viernes: 8:00 AM - 6:00 PM</p>
+            <p>Sábados y Domingos: 9:00 AM - 5:00 PM</p>
+        </div>
+        
+
+    </div>
+
+</section>
+
 {% endblock %}
