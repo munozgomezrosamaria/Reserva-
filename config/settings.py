@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ["*"]
 
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -139,4 +141,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  
 ]
 
+AUTH_USER_MODEL = "users.CustomUser"
 
+LOGIN_REDIRECT_URL = '/presentations/home/'  # o '/home/
+LOGOUT_REDIRECT_URL = '/presentations/home/'

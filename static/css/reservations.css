@@ -1,0 +1,116 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.hero{
+    min-height:100vh;
+    padding-top:40px;
+    padding-bottom:60px;
+    background-image: url("../images/background/fondo1.jpg");
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.hero-overlay{
+    text-align:center;
+    color:white;
+    margin-bottom:40px;
+}
+
+.hero-overlay{
+    text-align:center;
+    color:white;
+    margin-bottom:40px;
+    max-width:800px;
+}
+
+.hero-overlay p{
+    font-size:16px;
+}
+
+.contenido{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.formulario{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:320px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+.formulario h2{
+    color:#1d5b79;
+    margin-bottom:5px;
+}
+
+.formulario p{
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    font-size:14px;
+    margin-top:10px;
+}
+
+input, select{
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#f1f1f1;
+    margin-top:5px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2d5b75;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#244b60;
+}
+
+.info{
+    background:#7ec8c6;
+    padding:25px;
+    border-radius:10px;
+    width:300px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+.info h3{
+    margin-bottom:15px;
+}
+
+.info ul{
+    padding-left:20px;
+}
+
+.info li{
+    margin-bottom:10px;
+}

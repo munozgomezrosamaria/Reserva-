@@ -29,15 +29,47 @@
 
                 <label>Nombre Completo</label>
                 {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="error-bubble">
+                        {{ form.first_name.errors.0 }}
+                    </div>
+                {% endif %}
 
                 <label>Correo Electrónico</label>
                 {{ form.email }}
+                {% if form.email.errors %}
+<script>
+window.onload = function(){
+    const emailInput = document.getElementById("id_email");
+    emailInput.setCustomValidity("{{ form.email.errors.0 }}");
+    emailInput.reportValidity();
+}
+</script>
+{% endif %}
+<script>
+const emailInput = document.getElementById("id_email");
+
+/* limpiar error cuando el usuario cambie el correo */
+emailInput.addEventListener("input", function(){
+    emailInput.setCustomValidity("");
+});
+</script>
 
                 <label>Contraseña</label>
                 {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="error-bubble">
+                        {{ form.password1.errors.0 }}
+                    </div>
+                {% endif %}
 
                 <label>Confirmar Contraseña</label>
                 {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="error-bubble">
+                        {{ form.password2.errors.0 }}
+                    </div>
+                {% endif %}
 
                 <button type="submit" class="btn-register">
                     Registrarse
@@ -57,5 +89,30 @@
     </div>
 
 </div>
+
+<script>
+const pass1 = document.getElementById("id_password1");
+const pass2 = document.getElementById("id_password2");
+
+function validatePasswords(){
+
+    if(pass1.value.length < 8){
+        pass1.setCustomValidity("La contraseña debe tener al menos 8 caracteres");
+    }else{
+        pass1.setCustomValidity("");
+    }
+
+    if(pass1.value !== pass2.value){
+        pass2.setCustomValidity("Las contraseñas no coinciden");
+    }else{
+        pass2.setCustomValidity("");
+    }
+
+}
+
+pass1.addEventListener("input", validatePasswords);
+pass2.addEventListener("input", validatePasswords);
+</script>
+
 
 {% endblock %}

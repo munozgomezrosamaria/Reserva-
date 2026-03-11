@@ -1,0 +1,85 @@
+.services-hero{
+    background-image:url("../images/background/fondo1.jpg");
+    background-size:cover;
+    background-position:center;
+    padding:80px 20px;
+    text-align:center;
+}
+
+.services-hero h1{
+    font-size:40px;
+    color:#2c3e50;
+}
+
+.services-hero p{
+    max-width:700px;
+    margin:auto;
+    margin-bottom:40px;
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.service-card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,0.2);
+    transition:transform 0.2s;
+}
+
+.service-card:hover{
+    transform:translateY(-5px);
+}
+
+.service-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:20px;
+}
+
+.card-content h3{
+    color:#2c5f7c;
+}
+
+.card-content p{
+    font-size:14px;
+    margin:15px 0;
+}
+
+.reserve-btn{
+    background:#5b7c8d;
+    color:white;
+    padding:8px 18px;
+    border-radius:20px;
+    text-decoration:none;
+}
+
+.cta-box{
+    margin-top:60px;
+    background:rgba(255,255,255,0.85);
+    padding:40px;
+    border-radius:12px;
+    max-width:800px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.cta-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 20px;
+    background:#7ea7b7;
+    color:white;
+    border-radius:20px;
+    text-decoration:none;
+}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/reservations.css' %}">
+
+<div class="hero">
+
+    <div class="hero-overlay">
+        <h1>Reserva tu Experiencia</h1>
+        <p>
+            Completa el formulario para reservar tu actividad.
+            Te contactaremos para confirmar los detalles.
+        </p>
+    </div>
+
+    <div class="contenido">
+
+        <div class="formulario">
+            <h2>Formulario de Reserva</h2>
+            <p>Ingresa tus datos y selecciona la actividad que deseas realizar.</p>
+
+            <form>
+
+                <label>Nombre Completo</label>
+                <input type="text" placeholder="Ingresa tu nombre">
+
+                <label>Tipo de Actividad</label>
+                <select>
+                    <option>Selecciona una actividad</option>
+                    <option>Paseos Ecológicos</option>
+                    <option>Caminatas guiadas</option>
+                    <option>Gastronomía Local</option>
+                </select>
+
+                <label>Fecha</label>
+                <input type="date">
+
+                <label>Número de Personas</label>
+                <input type="number" placeholder="Ej: 4">
+
+                <button type="submit">
+                    Confirmar Reserva
+                </button>
+
+            </form>
+        </div>
+
+
+        <div class="info">
+            <h3>Información Importante</h3>
+
+            <ul>
+                <li>Las reservas deben hacerse con al menos 48 horas de anticipación</li>
+                <li>El horario de atención es de 8:00 AM a 6:00 PM</li>
+                <li>Se recomienda usar ropa cómoda y calzado apropiado</li>
+                <li>Todas las actividades incluyen guía profesional</li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

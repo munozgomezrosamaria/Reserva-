@@ -1,7 +1,17 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import CustomUser
+from django import forms
 
 class RegisterForm(UserCreationForm):
-    class Meta: 
-        model= User 
-        fields= ("username","email","password1", "password2")
+
+    class Meta:
+        model = CustomUser
+        fields = ("first_name", "email", "password1", "password2")
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este correo ya está registrado")
+
+        return email
