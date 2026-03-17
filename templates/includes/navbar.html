@@ -12,10 +12,10 @@
           <a class="nav-link" href="/">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/servicios/">Servicios</a>
+          <a class="nav-link" href="{% url 'presentations:services' %}">Servicios</a>
         </li>
         {% if user.is_authenticated %}
-        <a href="{% url 'presentations:reservations' %}">Mis Reservas</a>
+        <a class="nav-link" href="{% url 'presentations:reservations' %}">Mis Reservas</a>
         {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'presentations:gallery' %}">Galería</a>
