@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Mis Reservas - Laguna de la Bolsa</title>
@@ -8,7 +9,11 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/reservations.css">
 </head>
+
 <body>
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #29B6F6;">
@@ -120,36 +125,36 @@
     <script src="/js/api.js"></script>
     <script src="/js/app.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        if (!requireAuth()) return;
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!requireAuth()) return;
 
-        // Load services for the dropdown
-        const select = document.getElementById('service-select');
-        try {
-            const services = await api.getServices();
-            select.innerHTML = '<option value="">Selecciona una actividad</option>' +
-                services.map(s => `<option value="${s.id}">${s.title}</option>`).join('');
-        } catch {
-            select.innerHTML = '<option value="">Error al cargar</option>';
-        }
-
-        // Load existing reservations
-        await loadReservations();
-
-        // Set min date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('reservation-date').min = today;
-    });
-
-    async function loadReservations() {
-        const container = document.getElementById('my-reservations');
-        try {
-            const reservations = await api.getReservations();
-            if (reservations.length === 0) {
-                container.innerHTML = '<p class="text-muted">No tienes reservas aún.</p>';
-                return;
+            // Load services for the dropdown
+            const select = document.getElementById('service-select');
+            try {
+                const services = await api.getServices();
+                select.innerHTML = '<option value="">Selecciona una actividad</option>' +
+                    services.map(s => `<option value="${s.id}">${s.title}</option>`).join('');
+            } catch {
+                select.innerHTML = '<option value="">Error al cargar</option>';
             }
-            container.innerHTML = reservations.map(r => `
+
+            // Load existing reservations
+            await loadReservations();
+
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('reservation-date').min = today;
+        });
+
+        async function loadReservations() {
+            const container = document.getElementById('my-reservations');
+            try {
+                const reservations = await api.getReservations();
+                if (reservations.length === 0) {
+                    container.innerHTML = '<p class="text-muted">No tienes reservas aún.</p>';
+                    return;
+                }
+                container.innerHTML = reservations.map(r => `
                 <div class="card mb-2 p-3">
                     <strong>${r.service_title}</strong><br>
                     📅 ${r.date} | 👥 ${r.number_persons} personas<br>
@@ -158,37 +163,38 @@
                     </span>
                 </div>
             `).join('');
-        } catch {
-            container.innerHTML = '<p class="text-danger">Error al cargar reservas.</p>';
-        }
-    }
-
-    document.getElementById('reservation-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const msgDiv = document.getElementById('form-message');
-
-        const serviceId = document.getElementById('service-select').value;
-        const date = document.getElementById('reservation-date').value;
-        const numberPersons = document.getElementById('number-persons').value;
-
-        if (!serviceId) {
-            msgDiv.innerHTML = '<div class="alert alert-danger">Selecciona una actividad</div>';
-            msgDiv.style.display = 'block';
-            return;
+            } catch {
+                container.innerHTML = '<p class="text-danger">Error al cargar reservas.</p>';
+            }
         }
 
-        const result = await api.createReservation(date, parseInt(numberPersons), parseInt(serviceId));
+        document.getElementById('reservation-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msgDiv = document.getElementById('form-message');
 
-        if (result.success) {
-            msgDiv.innerHTML = '<div class="alert alert-success">✅ Reserva creada exitosamente</div>';
-            msgDiv.style.display = 'block';
-            document.getElementById('reservation-form').reset();
-            await loadReservations();
-        } else {
-            msgDiv.innerHTML = '<div class="alert alert-danger">Error al crear la reserva</div>';
-            msgDiv.style.display = 'block';
-        }
-    });
+            const serviceId = document.getElementById('service-select').value;
+            const date = document.getElementById('reservation-date').value;
+            const numberPersons = document.getElementById('number-persons').value;
+
+            if (!serviceId) {
+                msgDiv.innerHTML = '<div class="alert alert-danger">Selecciona una actividad</div>';
+                msgDiv.style.display = 'block';
+                return;
+            }
+
+            const result = await api.createReservation(date, parseInt(numberPersons), parseInt(serviceId));
+
+            if (result.success) {
+                msgDiv.innerHTML = '<div class="alert alert-success">✅ Reserva creada exitosamente</div>';
+                msgDiv.style.display = 'block';
+                document.getElementById('reservation-form').reset();
+                await loadReservations();
+            } else {
+                msgDiv.innerHTML = '<div class="alert alert-danger">Error al crear la reserva</div>';
+                msgDiv.style.display = 'block';
+            }
+        });
     </script>
 </body>
+
 </html>
