@@ -11,9 +11,6 @@
 </head>
 
 <body>
-    {% if error %}
-    <p style="color:red;">{{ error }}</p>
-    {% endif %}
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #29B6F6;">
@@ -190,7 +187,8 @@
                 document.getElementById('reservation-form').reset();
                 await loadReservations();
             } else {
-                msgDiv.innerHTML = '<div class="alert alert-danger">Error al crear la reserva</div>';
+                msgDiv.innerHTML = `<div class="alert alert-danger">${result.error || "Error al crear la reserva"}</div>`;
+
                 msgDiv.style.display = 'block';
             }
         });
