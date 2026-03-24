@@ -1,0 +1,9 @@
+{
+  "name": "reserval-frontend",
+  "version": "1.0.0",
+  "description": "Frontend para Reserva Natural Laguna de la Bolsa",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'"
+  }
+}

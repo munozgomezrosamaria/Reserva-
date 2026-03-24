@@ -10,11 +10,14 @@ __pycache__/
 # Django
 *.log
 db.sqlite3
-media/
-staticfiles/
+Backend/staticfiles/
+Backend/media/
 
 # Variables de entorno
 .env
+
+# Node
+node_modules/
 
 # VS Code
 .vscode/
@@ -22,3 +25,9 @@ staticfiles/
 # Windows
 Thumbs.db
 Desktop.ini
+
+# IDE
+.idea/
+
+# OS
+.DS_Store

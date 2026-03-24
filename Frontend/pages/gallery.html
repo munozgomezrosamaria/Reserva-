@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Galería - Laguna de la Bolsa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/gallery.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #29B6F6;">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Reserva Laguna De La Bolsa</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/services.html">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/gallery.html">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/contact.html">Contactos</a></li>
+                </ul>
+                <ul class="navbar-nav" id="auth-links"></ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="gallery-container">
+            <h1 class="gallery-title">Galería</h1>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto1.jpg" onclick="openModal(this)">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto2.jpg" onclick="openModal(this)">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto3.jpg" onclick="openModal(this)">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto4.jpg" onclick="openModal(this)">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto5.jpg" onclick="openModal(this)">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/gallery/foto6.jpg" onclick="openModal(this)">
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL -->
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg">
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-white pt-5 pb-3" style="background-color:#29B6F6;">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <h5 class="fw-bold">Reserva Laguna De La Bolsa</h5>
+                    <p>Reserva Natural comprometida con el turismo sostenible y la preservación del medio ambiente.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white text-decoration-none">Inicio</a></li>
+                        <li><a href="/pages/services.html" class="text-white text-decoration-none">Servicios</a></li>
+                        <li><a href="/pages/gallery.html" class="text-white text-decoration-none">Galería</a></li>
+                        <li><a href="/pages/contact.html" class="text-white text-decoration-none">Contactos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold">Contacto</h5>
+                    <p>info@lagunadelabolsa.com</p>
+                    <p>Tel: +57 123 456 7890</p>
+                    <p>Horario: Lun-Dom 8:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            <hr class="border-light">
+            <div class="text-center">
+                <small>&copy; 2026 Reserva Laguna De La Bolsa. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+    function openModal(img) {
+        document.getElementById("imageModal").style.display = "block";
+        document.getElementById("modalImg").src = img.src;
+    }
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+    </script>
+</body>
+</html>
