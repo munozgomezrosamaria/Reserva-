@@ -1,4 +1,5 @@
 {
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/pages/(.*)", "destination": "/pages/$1" },
     { "source": "/css/(.*)", "destination": "/css/$1" },
