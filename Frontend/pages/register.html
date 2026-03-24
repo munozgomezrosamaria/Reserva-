@@ -89,11 +89,21 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     const email = document.getElementById('email').value;
     const password1 = document.getElementById('password1').value;
     const password2 = document.getElementById('password2').value;
+    const btn = document.querySelector('.btn-register');
 
     // Clear errors
     document.querySelectorAll('.error-bubble').forEach(el => el.style.display = 'none');
+    
+    // Set loading state
+    const originalText = btn.textContent;
+    btn.textContent = "Procesando... (puede tardar unos segundos)";
+    btn.disabled = true;
 
     const result = await api.register(firstName, email, password1, password2);
+
+    // Reset loading state
+    btn.textContent = originalText;
+    btn.disabled = false;
 
     if (result.success) {
         window.location.href = '/';
