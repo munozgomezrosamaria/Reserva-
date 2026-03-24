@@ -25,6 +25,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path("users/", include("apps.users.urls")),
     path("presentations/", include("apps.presentations.urls")),
+    path("reservations/", include("apps.reservations.urls"))
 ]
 
 if settings.DEBUG:
