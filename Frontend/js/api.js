@@ -203,7 +203,18 @@ class ApiClient {
             return { success: true, data: await response.json() };
         }
 
-        return { success: false };
+        let errorMessage = 'Error al crear la reserva';
+        if (response) {
+            try {
+                const data = await response.json();
+                // DRF returns errors in different formats, try to find a message
+                errorMessage = data.detail || data.message || Object.values(data)[0] || errorMessage;
+            } catch (e) {
+                console.error('Error parsing response:', e);
+            }
+        }
+
+        return { success: false, error: errorMessage };
     }
 }
 

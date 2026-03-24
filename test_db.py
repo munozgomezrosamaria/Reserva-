@@ -6,13 +6,12 @@ db_url = "postgresql://postgres:DrsIkVDLGkYAmzoWyVCQgVlyZOKXneoy@centerbeam.prox
 try:
     print("Connecting to DB...")
     conn = psycopg2.connect(db_url)
-    conn.autocommit = True
     cur = conn.cursor()
-    cur.execute("SELECT pid, state, query FROM pg_stat_activity WHERE state != 'idle';")
-    rows = cur.fetchall()
-    print(f"Active DB connections: {len(rows)}")
-    for r in rows:
-        print(r)
+    cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
+    tables = cur.fetchall()
+    print("Tables in DB:")
+    for t in tables:
+        print(t[0])
     cur.close()
     conn.close()
 except Exception as e:
