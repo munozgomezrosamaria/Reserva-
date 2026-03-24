@@ -6,15 +6,24 @@ def reserva(request):
     if request.method == "POST":
         date = request.POST.get("date")
         number_persons = request.POST.get("number_persons")
+        service_id = request.POST.get("service")
+
+        service = Service.objects.get(id=service_id)
 
         Reservation.objects.create(
             date=date,
             number_persons=number_persons,
             state="pendiente",
             user=request.user,
-            service=Service.objects.first()  # ejemplo
+            service=service
         )
 
         return redirect("reservations")
 
-    return render(request, "reservations.html")
+    services = Service.objects.all()
+    reservations = Reservation.objects.all()
+
+    return render(request, "reservations.html", {
+        "services": services,
+        "reservations": reservations
+    })
