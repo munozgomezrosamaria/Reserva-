@@ -5,7 +5,7 @@
 
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:8000/api' 
-    : 'https://your-backend.onrender.com/api';  // Cambiar por tu URL de Render
+    : 'https://reserva-kuiz.onrender.com/api';
 
 class ApiClient {
     constructor() {
