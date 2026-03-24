@@ -104,44 +104,54 @@ class ApiClient {
     // --- Auth ---
 
     async login(email, password) {
-        const response = await fetch(`${this.baseUrl}/token/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
+        try {
+            const response = await fetch(`${this.baseUrl}/token/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
 
-        if (response.ok) {
-            const data = await response.json();
-            this.saveTokens(data.access, data.refresh);
-            // Fetch user profile
-            await this.fetchProfile();
-            return { success: true };
+            if (response.ok) {
+                const data = await response.json();
+                this.saveTokens(data.access, data.refresh);
+                // Fetch user profile
+                await this.fetchProfile();
+                return { success: true };
+            }
+            return { success: false, error: 'Correo o contraseña incorrectos' };
+        } catch (err) {
+            console.error(err);
+            return { success: false, error: 'Error de conexión con el servidor. Intenta de nuevo.' };
         }
-
-        return { success: false, error: 'Correo o contraseña incorrectos' };
     }
 
     async register(firstName, email, password1, password2) {
-        const response = await fetch(`${this.baseUrl}/users/register/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                first_name: firstName,
-                email,
-                password1,
-                password2,
-            }),
-        });
+        try {
+            const response = await fetch(`${this.baseUrl}/users/register/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    email,
+                    password1,
+                    password2,
+                }),
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            this.saveTokens(data.tokens.access, data.tokens.refresh);
-            this.saveUserData(data.user);
-            return { success: true };
+            if (response.ok) {
+                this.saveTokens(data.tokens.access, data.tokens.refresh);
+                this.saveUserData(data.user);
+                return { success: true };
+            }
+
+            return { success: false, errors: data };
+        } catch (err) {
+            console.error(err);
+            alert('Error de red: No se pudo conectar con el servidor.');
+            return { success: false, errors: {} };
         }
-
-        return { success: false, errors: data };
     }
 
     async fetchProfile() {

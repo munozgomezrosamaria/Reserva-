@@ -164,19 +164,7 @@ REST_FRAMEWORK = {
 
 # CORS - Allow frontend origins
 
-raw_origins = config(
-    'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:5173'
-).split(',')
-
-CORS_ALLOWED_ORIGINS = []
-for origin in raw_origins:
-    origin = origin.strip()
-    if origin:
-        if not origin.startswith('http://') and not origin.startswith('https://'):
-            origin = 'https://' + origin
-        CORS_ALLOWED_ORIGINS.append(origin)
-
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 
