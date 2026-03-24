@@ -1,14 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Reservation
-from .models import Service
+from apps.services.models import Service
 
+@login_required
 def reserva(request):
     if request.method == "POST":
         date = request.POST.get("date")
-        number_persons = request.POST.get("number_persons")
+        number_persons = int(request.POST.get("number_persons"))
         service_id = request.POST.get("service")
 
-        service = Service.objects.get(id=service_id)
+        service = get_object_or_404(Service, id=service_id)
 
         Reservation.objects.create(
             date=date,
