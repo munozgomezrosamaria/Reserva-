@@ -6,21 +6,27 @@ from apps.services.models import Service
 @login_required
 def reserva(request):
     if request.method == "POST":
-        date = request.POST.get("date")
-        number_persons = int(request.POST.get("number_persons"))
-        service_id = request.POST.get("service")
+        try:
+            date = request.POST.get("date")
+            number_persons = int(request.POST.get("number_persons"))
+            service_id = request.POST.get("service")
 
-        service = get_object_or_404(Service, id=service_id)
+            service = get_object_or_404(Service, id=service_id)
 
-        Reservation.objects.create(
-            date=date,
-            number_persons=number_persons,
-            state="pendiente",
-            user=request.user,
-            service=service
-        )
+            Reservation.objects.create(
+                date=date,
+                number_persons=number_persons,
+                state="pendiente",
+                user=request.user,
+                service=service
+            )
 
-        return redirect("reservations")
+            return redirect("reservations")
+
+        except Exception as e:
+            return render(request, "reservations.html", {
+                "error": str(e)
+            })
 
     services = Service.objects.all()
     reservations = Reservation.objects.all()
