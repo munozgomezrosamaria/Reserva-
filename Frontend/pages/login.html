@@ -30,7 +30,6 @@
                 <label>Contraseña</label>
                 <input type="password" id="password" class="form-control" required>
 
-                <a href="/pages/recover_password.html" class="forgot">¿Olvidaste tu contraseña?</a>
                 <button type="submit" class="btn btn-primary w-100 py-2 mb-3" id="login-btn" style="background-color: #29B6F6; border: none;">
                     Iniciar Sesión
                 </button>
@@ -60,6 +59,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('error-message');
     const btn = document.getElementById('login-btn');
+
 
     const originalText = btn.textContent;
     btn.textContent = "Iniciando sesión...";
