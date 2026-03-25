@@ -99,6 +99,11 @@ class PasswordResetRequestAPIView(APIView):
                 return Response({'error': f'Error al procesar el envío: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
             return Response({'message': 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.'})
+        except User.DoesNotExist:
+            # Por seguridad, no revelamos si el correo existe o no
+            return Response({'message': 'Si el correo está registrado, recibirás instrucciones en breve.'})
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class PasswordResetConfirmAPIView(APIView):
     permission_classes = [AllowAny]
