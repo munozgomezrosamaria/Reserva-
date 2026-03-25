@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserRegistrationSerializer, UserSerializer
-
+from rest_framework.permissions import IsAdminUser
 
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -28,4 +28,14 @@ class RegisterAPIView(APIView):
 class UserProfileAPIView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+
+
+class AdminUserListAPIView(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request):
+        from .models import CustomUser
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
