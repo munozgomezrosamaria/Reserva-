@@ -239,12 +239,14 @@
 
     // Verificar que sea admin al cargar
     window.onload = function() {
+        const token = localStorage.getItem('access_token');
         const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-        if (!user.is_staff) {
+        if (!token || !user.is_staff) {
             window.location.href = '../pages/login.html';
-        }
-        cargarUsuarios();
+         return;
     }
+    cargarUsuarios();
+}
 </script>
 </body>
 
