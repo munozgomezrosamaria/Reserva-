@@ -226,13 +226,23 @@ class ApiClient {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email }),
             });
-            const data = await response.json();
+            
+            let data;
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                // If not JSON, it might be a 500 error page from the server
+                return { success: false, error: `Error del servidor (${response.status}). Revisa la configuración de correo.` };
+            }
+
             if (response.ok) {
                 return { success: true, message: data.message };
             }
             return { success: false, error: data.error || 'Error al procesar la solicitud' };
         } catch (err) {
-            return { success: false, error: 'Error de conexión' };
+            console.error('Fetch Error:', err);
+            return { success: false, error: 'Error de red o el servidor no respondió.' };
         }
     }
 
