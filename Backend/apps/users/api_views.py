@@ -35,35 +35,26 @@ class UserProfileAPIView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-
-# --- Password Reset API Views ---
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.core.mail import send_mail
-from django.contrib.auth import get_user_model
-from django.conf import settings
-
-User = get_user_model()
+class AdminUserListAPIView(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request):
+        from .models import CustomUser
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 
 class PasswordResetRequestAPIView(APIView):
     permission_classes = [AllowAny]
-
     def post(self, request):
         email = request.data.get('email')
         if not email:
             return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
         try:
             user = User.objects.get(email=email)
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            
-            # Link to the FRONTEND (Vercel)
-            # In production, this should be the Vercel URL
             frontend_url = request.headers.get('Origin') or 'https://reserva-laguna-de-la-bolsa.vercel.app'
             reset_url = f"{frontend_url}/pages/reset-password.html?uid={uid}&token={token}"
-            
             try:
                 send_mail(
                     'Restablecer contraseña - Reserva Laguna De La Bolsa',
@@ -73,33 +64,24 @@ class PasswordResetRequestAPIView(APIView):
                     fail_silently=False,
                 )
             except Exception as mail_error:
-                return Response({
-                    'error': f'Error al enviar el correo. Configuración SMTP inválida o bloqueada. ({str(mail_error)})'
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
+                return Response({'error': f'Error al enviar el correo. ({str(mail_error)})'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response({'message': 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.'})
         except User.DoesNotExist:
-            # We return 200 even if user doesn't exist for security (don't reveal registered emails)
             return Response({'message': 'Si el correo está registrado, recibirás instrucciones en breve.'})
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 class PasswordResetConfirmAPIView(APIView):
     permission_classes = [AllowAny]
-
     def post(self, request):
         uid = request.data.get('uid')
         token = request.data.get('token')
         new_password = request.data.get('password')
-        
         if not uid or not token or not new_password:
             return Response({'error': 'Todos los campos son obligatorios'}, status=status.HTTP_400_BAD_REQUEST)
-            
         try:
             uid_decoded = force_str(urlsafe_base64_decode(uid))
             user = User.objects.get(pk=uid_decoded)
-            
             if default_token_generator.check_token(user, token):
                 user.set_password(new_password)
                 user.save()
