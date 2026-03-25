@@ -111,17 +111,22 @@ class ApiClient {
                 body: JSON.stringify({ email, password }),
             });
 
+            const contentType = response.headers.get("content-type");
+            let data = {};
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            }
+
             if (response.ok) {
-                const data = await response.json();
                 this.saveTokens(data.access, data.refresh);
                 // Fetch user profile
                 await this.fetchProfile();
                 return { success: true };
             }
-            return { success: false, error: 'Correo o contraseña incorrectos' };
+            return { success: false, error: data.error || data.detail || 'Correo o contraseña incorrectos' };
         } catch (err) {
             console.error(err);
-            return { success: false, error: 'Error de conexión con el servidor. Intenta de nuevo.' };
+            return { success: false, error: 'Error de red o el servidor falló. Intenta de nuevo.' };
         }
     }
 
