@@ -59,7 +59,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('error-message');
-    const btn = document.querySelector('.btn-login');
+    const btn = document.getElementById('login-btn');
 
     const originalText = btn.textContent;
     btn.textContent = "Iniciando sesión...";
