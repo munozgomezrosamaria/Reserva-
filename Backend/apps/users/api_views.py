@@ -55,21 +55,50 @@ class PasswordResetRequestAPIView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             frontend_url = request.headers.get('Origin') or 'https://reserva-laguna-de-la-bolsa.vercel.app'
             reset_url = f"{frontend_url}/pages/reset-password.html?uid={uid}&token={token}"
+            
+            # --- Enviar usando Resend API (HTTP) para evitar bloqueos SMTP ---
+            import requests
+            
+            resend_key = settings.RESEND_API_KEY
+            if not resend_key:
+                return Response({'error': 'Configuración de correo incompleta (Falta API Key).'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
             try:
-                send_mail(
-                    'Restablecer contraseña - Reserva Laguna De La Bolsa',
-                    f'Hola {user.first_name},\n\nHaz clic en el siguiente enlace para restablecer tu contraseña:\n{reset_url}\n\nSi no solicitaste este cambio, puedes ignorar este correo.',
-                    settings.EMAIL_HOST_USER,
-                    [email],
-                    fail_silently=False,
+                # Nota: Resend requiere que el remitente esté verificado. 
+                # Si no tienes dominio verificado, usa 'onboarding@resend.dev' o el que Resend te asigne.
+                email_data = {
+                    "from": "Reserval <onboarding@resend.dev>",
+                    "to": [email],
+                    "subject": "Restablecer contraseña - Reserva Laguna De La Bolsa",
+                    "html": f"""
+                        <div style="font-family: sans-serif; max-width: 600px; margin: auto;">
+                            <h2>Hola {user.first_name},</h2>
+                            <p>Haz solicitado restablecer tu contraseña para tu cuenta en Reserva Laguna De La Bolsa.</p>
+                            <p>Haz clic en el botón de abajo para continuar:</p>
+                            <a href="{reset_url}" style="background-color: #29B6F6; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;">Restablecer Contraseña</a>
+                            <p>Si no solicitaste este cambio, puedes ignorar este correo.</p>
+                            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                            <p style="font-size: 12px; color: #999;">Este es un correo automático, por favor no respondas.</p>
+                        </div>
+                    """
+                }
+                
+                res = requests.post(
+                    "https://api.resend.com/emails",
+                    headers={
+                        "Authorization": f"Bearer {resend_key}",
+                        "Content-Type": "application/json"
+                    },
+                    json=email_data
                 )
-            except Exception as mail_error:
-                return Response({'error': f'Error al enviar el correo. ({str(mail_error)})'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+                if res.status_code not in [200, 201]:
+                    return Response({'error': f'Error de Resend: {res.text}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            except Exception as e:
+                return Response({'error': f'Error al procesar el envío: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
             return Response({'message': 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.'})
-        except User.DoesNotExist:
-            return Response({'message': 'Si el correo está registrado, recibirás instrucciones en breve.'})
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class PasswordResetConfirmAPIView(APIView):
     permission_classes = [AllowAny]

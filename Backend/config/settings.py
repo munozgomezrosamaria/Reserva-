@@ -177,6 +177,8 @@ EMAIL_TIMEOUT = 10  # Seconds
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="tucorreo@gmail.com")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="abcd efgh ijkl mnop")
 
+RESEND_API_KEY = config("RESEND_API_KEY", default="")
+
 
 # Default primary key field type
 
