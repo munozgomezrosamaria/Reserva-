@@ -172,8 +172,8 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "tucorreo@gmail.com"
-EMAIL_HOST_PASSWORD = "abcd efgh ijkl mnop"
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="tucorreo@gmail.com")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="abcd efgh ijkl mnop")
 
 
 # Default primary key field type
