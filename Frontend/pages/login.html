@@ -74,9 +74,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         const user = api.getUserData();
 
         if (user && user.is_staff) {
-            window.location.href = '/pages/admin.html';
+            window.location.href = '/'; // Or Django Admin if preferred
         } else {
-            window.location.href = '/pages/home.html';
+            window.location.href = '/';
         }
     }else {
         errorDiv.textContent = result.error;
