@@ -71,8 +71,14 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     btn.disabled = false;
 
     if (result.success) {
-        window.location.href = '/';
-    } else {
+        const user = api.getUserData();
+
+        if (user && user.is_staff) {
+            window.location.href = '/pages/admin.html';
+        } else {
+            window.location.href = '/pages/home.html';
+        }
+    }else {
         errorDiv.textContent = result.error;
         errorDiv.style.display = 'block';
     }

@@ -24,6 +24,11 @@ class UserLoginView(LoginView):
     template_name = "users/login.html"
     redirect_authenticated_user = True
 
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            return '/reservations/panel/reservations/'
+        return '/presentations/home/'
+
     def form_invalid(self, form):
         messages.error(self.request, "Correo o contraseña incorrectos")
         return super().form_invalid(form)
