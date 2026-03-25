@@ -2,7 +2,6 @@ from django.urls import path
 from .views import RegisterView
 from django.contrib.auth import views as auth_views
 from .views import RegisterView, UserLoginView
-from .views import prueba_email
 
 app_name = 'users'
 
@@ -17,5 +16,4 @@ urlpatterns = [
         name="recover_password"
     ),
     path("logout/",auth_views.LogoutView.as_view(),name="logout"),
-    path('prueba-email/', prueba_email),
 ]
