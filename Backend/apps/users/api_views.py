@@ -64,13 +64,19 @@ class PasswordResetRequestAPIView(APIView):
             frontend_url = request.headers.get('Origin') or 'https://reserva-laguna-de-la-bolsa.vercel.app'
             reset_url = f"{frontend_url}/pages/reset-password.html?uid={uid}&token={token}"
             
-            send_mail(
-                'Restablecer contraseña - Reserva Laguna De La Bolsa',
-                f'Hola {user.first_name},\n\nHaz clic en el siguiente enlace para restablecer tu contraseña:\n{reset_url}\n\nSi no solicitaste este cambio, puedes ignorar este correo.',
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
-            )
+            try:
+                send_mail(
+                    'Restablecer contraseña - Reserva Laguna De La Bolsa',
+                    f'Hola {user.first_name},\n\nHaz clic en el siguiente enlace para restablecer tu contraseña:\n{reset_url}\n\nSi no solicitaste este cambio, puedes ignorar este correo.',
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                    fail_silently=False,
+                )
+            except Exception as mail_error:
+                return Response({
+                    'error': f'Error al enviar el correo. Configuración SMTP inválida o bloqueada. ({str(mail_error)})'
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
             return Response({'message': 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.'})
         except User.DoesNotExist:
             # We return 200 even if user doesn't exist for security (don't reveal registered emails)
