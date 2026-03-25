@@ -216,6 +216,42 @@ class ApiClient {
 
         return { success: false, error: errorMessage };
     }
+
+    // --- Password Recovery ---
+
+    async passwordResetRequest(email) {
+        try {
+            const response = await fetch(`${this.baseUrl}/users/password-reset/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                return { success: true, message: data.message };
+            }
+            return { success: false, error: data.error || 'Error al procesar la solicitud' };
+        } catch (err) {
+            return { success: false, error: 'Error de conexión' };
+        }
+    }
+
+    async passwordResetConfirm(uid, token, password) {
+        try {
+            const response = await fetch(`${this.baseUrl}/users/password-reset/confirm/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ uid, token, password }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                return { success: true, message: data.message };
+            }
+            return { success: false, error: data.error || 'Error al restablecer la contraseña' };
+        } catch (err) {
+            return { success: false, error: 'Error de conexión' };
+        }
+    }
 }
 
 // Global instance

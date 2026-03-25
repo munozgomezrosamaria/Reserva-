@@ -35,26 +35,35 @@ class UserProfileAPIView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-class AdminUserListAPIView(APIView):
-    permission_classes = [IsAdminUser]
-    def get(self, request):
-        from .models import CustomUser
-        users = CustomUser.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+
+# --- Password Reset API Views ---
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+from django.conf import settings
+
+User = get_user_model()
 
 class PasswordResetRequestAPIView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.data.get('email')
         if not email:
             return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
             user = User.objects.get(email=email)
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
+            
+            # Link to the FRONTEND (Vercel)
+            # In production, this should be the Vercel URL
             frontend_url = request.headers.get('Origin') or 'https://reserva-laguna-de-la-bolsa.vercel.app'
             reset_url = f"{frontend_url}/pages/reset-password.html?uid={uid}&token={token}"
+            
             send_mail(
                 'Restablecer contraseña - Reserva Laguna De La Bolsa',
                 f'Hola {user.first_name},\n\nHaz clic en el siguiente enlace para restablecer tu contraseña:\n{reset_url}\n\nSi no solicitaste este cambio, puedes ignorar este correo.',
@@ -64,21 +73,27 @@ class PasswordResetRequestAPIView(APIView):
             )
             return Response({'message': 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.'})
         except User.DoesNotExist:
+            # We return 200 even if user doesn't exist for security (don't reveal registered emails)
             return Response({'message': 'Si el correo está registrado, recibirás instrucciones en breve.'})
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class PasswordResetConfirmAPIView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         uid = request.data.get('uid')
         token = request.data.get('token')
         new_password = request.data.get('password')
+        
         if not uid or not token or not new_password:
             return Response({'error': 'Todos los campos son obligatorios'}, status=status.HTTP_400_BAD_REQUEST)
+            
         try:
             uid_decoded = force_str(urlsafe_base64_decode(uid))
             user = User.objects.get(pk=uid_decoded)
+            
             if default_token_generator.check_token(user, token):
                 user.set_password(new_password)
                 user.save()
