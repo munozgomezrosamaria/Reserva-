@@ -60,6 +60,8 @@ class PasswordResetRequestAPIView(APIView):
             import requests
             
             resend_key = settings.RESEND_API_KEY
+            from_email = config("RESEND_FROM_EMAIL", default="Reserval <onboarding@resend.dev>")
+            
             if not resend_key:
                 return Response({'error': 'Configuración de correo incompleta (Falta API Key).'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -67,7 +69,7 @@ class PasswordResetRequestAPIView(APIView):
                 # Nota: Resend requiere que el remitente esté verificado. 
                 # Si no tienes dominio verificado, usa 'onboarding@resend.dev' o el que Resend te asigne.
                 email_data = {
-                    "from": "Reserval <onboarding@resend.dev>",
+                    "from": from_email,
                     "to": [email],
                     "subject": "Restablecer contraseña - Reserva Laguna De La Bolsa",
                     "html": f"""
